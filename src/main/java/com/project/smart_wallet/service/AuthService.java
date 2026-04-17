@@ -1,0 +1,54 @@
+package com.project.smart_wallet.service;
+
+import com.project.smart_wallet.conf.security.TokenService;
+import com.project.smart_wallet.domain.User;
+import com.project.smart_wallet.dto.request.LoginRequest;
+import com.project.smart_wallet.dto.request.RegisterRequest;
+import com.project.smart_wallet.dto.response.RegisterResponse;
+import com.project.smart_wallet.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import static com.project.smart_wallet.mapper.RegisterMapper.toResponse;
+
+@Service
+@RequiredArgsConstructor
+public class AuthService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final TokenService tokenService;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email);
+    }
+
+    public void login(LoginRequest request) {
+        UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(request.email(),
+                request.password());
+        Authentication auth = authenticationManager.authenticate(usernamePassword);
+
+        String token = tokenService.generateToken((User) auth.getPrincipal());
+    }
+
+    public RegisterResponse register(RegisterRequest request) {
+        if (userRepository.findByEmail(request.email()) != null) throw new RuntimeException("usuario já cadastrado");
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(request.password());
+
+        User user = new User(request.username(), request.email(), encryptedPassword);
+        userRepository.save(user);
+
+        return toResponse(user);
+    }
+}
