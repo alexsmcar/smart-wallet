@@ -23,7 +23,7 @@ public class AssetType {
 
     private Boolean incomeGenerating;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "assetType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Asset> assets;
 
 }
