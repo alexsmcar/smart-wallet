@@ -20,18 +20,13 @@ import static com.project.smart_wallet.mapper.RegisterMapper.toResponse;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements UserDetailsService {
+public class AuthService {
 
     private final UserRepository userRepository;
 
     private final AuthenticationManager authenticationManager;
 
     private final TokenService tokenService;
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email);
-    }
 
     public void login(LoginRequest request) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(request.email(),
