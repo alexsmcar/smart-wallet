@@ -9,36 +9,28 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "assets")
-public class Asset {
+@Table(name = "asset_price_histories")
+public class AssetPriceHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private BigDecimal price;
 
-    private String symbol;
-
-    private BigDecimal assetInterestRate;
-
-    private BigDecimal interestRatePeriod;
+    private Instant collectedAt;
 
     @CreationTimestamp
-    private Instant CreatedAt;
+    private Instant createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "asset_type.id")
-    private AssetType assetType;
-
-    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssetPriceHistory> assetPriceHistories;
-
+    @JoinColumn(name = "asset_id")
+    private Asset asset;
 }
