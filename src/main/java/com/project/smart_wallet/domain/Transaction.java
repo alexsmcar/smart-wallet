@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "transactions")
 public class Transaction {
 
     @Id
@@ -25,12 +27,12 @@ public class Transaction {
 
     private BigDecimal price;
 
-    private LocalDateTime transactionAt;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Instant transactionAt;
 
     private TranscationType type;
+
+    @CreationTimestamp
+    private Instant createdAt;
 
     @ManyToOne
     @JoinColumn(name = "user.id")
