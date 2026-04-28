@@ -27,7 +27,7 @@ public class Asset {
 
     private String symbol;
 
-    private BigDecimal assetInterestRate;
+    private BigDecimal interestRate;
 
     private BigDecimal interestRatePeriod;
 
