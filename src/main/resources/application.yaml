@@ -3,6 +3,6 @@ spring:
     name: smart-wallet
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/${DB_HOST}
+    url: jdbc:postgresql://localhost:5432/${DB_NAME}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
