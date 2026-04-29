@@ -1,6 +1,5 @@
 package com.project.smart_wallet.conf.security;
 
-import com.project.smart_wallet.domain.User;
 import com.project.smart_wallet.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
