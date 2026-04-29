@@ -5,14 +5,12 @@ import com.project.smart_wallet.domain.User;
 import com.project.smart_wallet.dto.request.LoginRequest;
 import com.project.smart_wallet.dto.request.RegisterRequest;
 import com.project.smart_wallet.dto.response.RegisterResponse;
+import com.project.smart_wallet.dto.response.TokenResponse;
 import com.project.smart_wallet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +26,16 @@ public class AuthService {
 
     private final TokenService tokenService;
 
-    public void login(LoginRequest request) {
+    public TokenResponse login(LoginRequest request) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(request.email(),
                 request.password());
         Authentication auth = authenticationManager.authenticate(usernamePassword);
 
-        String token = tokenService.generateToken((User) auth.getPrincipal());
+        return tokenService.generateToken((User) auth.getPrincipal());
     }
 
     public RegisterResponse register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.email()) != null) throw new RuntimeException("usuario já cadastrado");
+        if (userRepository.findByEmail(request.email()) != null) throw new RuntimeException("Usuário já cadastrado");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(request.password());
 

@@ -3,28 +3,31 @@ package com.project.smart_wallet.conf.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.project.smart_wallet.domain.User;
+import com.project.smart_wallet.dto.response.TokenResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 
 @Service
 public class TokenService {
     @Value("${JWT_SECRET}")
     private String secret;
 
-    public String generateToken(User user) {
+
+    public TokenResponse generateToken(User user) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
-        return JWT.create()
+
+        Instant expiresAt = generateExpirationTime();
+        String token = JWT.create()
                 .withIssuer("smart-wallet")
                 .withSubject(user.getEmail())
                 .withIssuedAt(Instant.now())
-                .withExpiresAt(getExpirationTime())
+                .withExpiresAt(expiresAt)
                 .sign(algorithm);
+
+        return new TokenResponse(token, getExpirationInSeconds(expiresAt));
     }
 
     public String validateToken(String token) {
@@ -36,8 +39,12 @@ public class TokenService {
                 .getSubject();
     }
 
-    private Instant getExpirationTime() {
+    private Instant generateExpirationTime() {
         return Instant.now().plus(Duration.ofHours(2));
+    }
+
+    private long getExpirationInSeconds(Instant expiresAt) {
+        return Duration.between(Instant.now(), expiresAt).getSeconds();
     }
 
 }

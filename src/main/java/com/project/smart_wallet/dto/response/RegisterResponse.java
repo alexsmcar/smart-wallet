@@ -1,6 +1,6 @@
 package com.project.smart_wallet.dto.response;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-public record RegisterResponse(Long id, String username, LocalDateTime createdAt) {
+public record RegisterResponse(Long id, String username, String email, Instant createdAt) {
 }
