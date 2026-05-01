@@ -1,0 +1,2 @@
+ALTER TABLE asset_types
+ADD COLUMN created_at TIMESTAMPTZ NOT NULL;
