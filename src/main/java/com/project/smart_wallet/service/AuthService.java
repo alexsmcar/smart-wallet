@@ -1,6 +1,6 @@
 package com.project.smart_wallet.service;
 
-import com.project.smart_wallet.conf.security.TokenService;
+import com.project.smart_wallet.security.service.TokenService;
 import com.project.smart_wallet.domain.User;
 import com.project.smart_wallet.dto.request.LoginRequest;
 import com.project.smart_wallet.dto.request.RegisterRequest;
@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +32,11 @@ public class AuthService {
                 request.password());
         Authentication auth = authenticationManager.authenticate(usernamePassword);
 
-        return tokenService.generateToken((User) auth.getPrincipal());
+        return tokenService.generateToken((UserDetails) auth.getPrincipal());
     }
 
     public RegisterResponse register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.email()) != null) throw new RuntimeException("Usuário já cadastrado");
+        if (userRepository.findByEmail(request.email()).isPresent()) throw new RuntimeException("Usuário já cadastrado");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(request.password());
 

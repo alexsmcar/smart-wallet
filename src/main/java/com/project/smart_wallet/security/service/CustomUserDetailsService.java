@@ -1,6 +1,8 @@
-package com.project.smart_wallet.service;
+package com.project.smart_wallet.security.service;
 
+import com.project.smart_wallet.domain.User;
 import com.project.smart_wallet.repository.UserRepository;
+import com.project.smart_wallet.security.model.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +17,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        return new CustomUser(user);
     }
 }
