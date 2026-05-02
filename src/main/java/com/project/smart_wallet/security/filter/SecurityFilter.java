@@ -6,6 +6,7 @@ import com.project.smart_wallet.security.service.TokenService;
 import com.project.smart_wallet.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
@@ -45,9 +47,13 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private String getToken(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null) return null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
 
-        return authHeader.replace("Bearer ", "");
+        return Arrays.stream(cookies)
+                .filter(cookie -> cookie.getName().equals("accessToken"))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
     }
 }
