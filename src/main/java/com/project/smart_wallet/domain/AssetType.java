@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "asset_types")
 public class AssetType {
@@ -18,8 +17,10 @@ public class AssetType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     private String name;
 
+    @Setter
     private Boolean incomeGenerating;
 
     @CreationTimestamp

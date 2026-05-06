@@ -9,7 +9,6 @@ import java.time.Instant;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "asset_price_histories")
 public class AssetPriceHistory {
@@ -18,8 +17,10 @@ public class AssetPriceHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     private BigDecimal price;
 
+    @Setter
     private Instant collectedAt;
 
     @CreationTimestamp
@@ -27,5 +28,6 @@ public class AssetPriceHistory {
 
     @ManyToOne
     @JoinColumn(name = "asset_id")
+    @Setter
     private Asset asset;
 }

@@ -18,19 +18,24 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     private BigDecimal quantity;
 
+    @Setter
     private BigDecimal price;
 
+    @Setter
     private Instant transactionAt;
 
     @Enumerated(EnumType.STRING)
+    @Setter
     private TranscationType type;
 
     @CreationTimestamp
     private Instant createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "user.id")
+    @JoinColumn(name = "user_id")
+    @Setter
     private User user;
 }

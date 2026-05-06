@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "assets")
 public class Asset {
@@ -19,22 +18,28 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     private String name;
 
+    @Setter
     private String symbol;
 
+    @Setter
     private String logoUrl;
 
+    @Setter
     private BigDecimal interestRate;
 
     @Enumerated(EnumType.STRING)
+    @Setter
     private InterestRatePeriod interestRatePeriod;
 
     @CreationTimestamp
-    private Instant CreatedAt;
+    private Instant createdAt;
 
     @ManyToOne
     @JoinColumn(name = "asset_type_id")
+    @Setter
     private AssetType assetType;
 
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
