@@ -1,0 +1,18 @@
+package com.project.smart_wallet.dto.response;
+
+import com.project.smart_wallet.domain.InterestRatePeriod;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+
+public record CreateAssetResponse(
+        Long id,
+        String name,
+        String symbol,
+        String logoUrl,
+        BigDecimal interestRate,
+        InterestRatePeriod interestRatePeriod,
+        Instant createdAt
+) {}
