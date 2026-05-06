@@ -23,18 +23,37 @@ public class Asset {
 
     private String symbol;
 
+    private String logoUrl;
+
     private BigDecimal interestRate;
 
-    private BigDecimal interestRatePeriod;
+    @Enumerated(EnumType.STRING)
+    private InterestRatePeriod interestRatePeriod;
 
     @CreationTimestamp
     private Instant CreatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "asset_type.id")
+    @JoinColumn(name = "asset_type_id")
     private AssetType assetType;
 
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssetPriceHistory> assetPriceHistories;
 
+
+    public Asset(
+            String name,
+            String symbol,
+            String logoUrl,
+            BigDecimal interestRate,
+            InterestRatePeriod interestRatePeriod,
+            AssetType assetType
+    ) {
+        this.name = name;
+        this.symbol = symbol;
+        this.logoUrl = logoUrl;
+        this.interestRate = interestRate;
+        this.interestRatePeriod = interestRatePeriod;
+        this.assetType = assetType;
+    }
 }

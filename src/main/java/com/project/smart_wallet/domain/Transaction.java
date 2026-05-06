@@ -24,6 +24,7 @@ public class Transaction {
 
     private Instant transactionAt;
 
+    @Enumerated(EnumType.STRING)
     private TranscationType type;
 
     @CreationTimestamp
