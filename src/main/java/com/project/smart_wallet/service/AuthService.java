@@ -1,5 +1,6 @@
 package com.project.smart_wallet.service;
 
+import com.project.smart_wallet.exceptions.custom.ConflictException;
 import com.project.smart_wallet.security.service.TokenService;
 import com.project.smart_wallet.domain.User;
 import com.project.smart_wallet.dto.request.LoginRequest;
@@ -36,7 +37,9 @@ public class AuthService {
     }
 
     public RegisterResponse register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.email()).isPresent()) throw new RuntimeException("Usuário já cadastrado");
+        if (userRepository.findByEmail(request.email()).isPresent()) {
+            throw new ConflictException("Usuário já cadastrado");
+        }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(request.password());
 

@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleNotFound(NotFoundException ex, HttpServletRequest request) {
         return new ErrorResponse(
                 Instant.now(),
-                HttpStatus.NOT_FOUND,
+                HttpStatus.NOT_FOUND.value(),
                 ex.getMessage(),
                 List.of(),
                 request.getRequestURI()
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleConflict(ConflictException ex, HttpServletRequest request) {
         return new ErrorResponse(
                 Instant.now(),
-                HttpStatus.CONFLICT,
+                HttpStatus.CONFLICT.value(),
                 ex.getMessage(),
                 List.of(),
                 request.getRequestURI()
