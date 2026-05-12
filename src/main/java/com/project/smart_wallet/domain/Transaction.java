@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
+@Table(name = "transactions")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "transactions")
 public class Transaction {
 
     @Id
@@ -27,15 +27,15 @@ public class Transaction {
     @Setter
     private Instant transactionAt;
 
-    @Enumerated(EnumType.STRING)
     @Setter
+    @Enumerated(EnumType.STRING)
     private TranscationType type;
 
     @CreationTimestamp
     private Instant createdAt;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Setter
     private User user;
 }

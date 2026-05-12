@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
+@Table(name = "asset_price_histories")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "asset_price_histories")
 public class AssetPriceHistory {
 
     @Id
@@ -26,8 +26,8 @@ public class AssetPriceHistory {
     @CreationTimestamp
     private Instant createdAt;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "asset_id")
-    @Setter
     private Asset asset;
 }
