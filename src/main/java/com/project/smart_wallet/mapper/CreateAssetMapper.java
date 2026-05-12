@@ -1,20 +1,19 @@
 package com.project.smart_wallet.mapper;
 
 import com.project.smart_wallet.domain.Asset;
-import com.project.smart_wallet.domain.AssetType;
 import com.project.smart_wallet.dto.request.CreateAssetRequest;
 import com.project.smart_wallet.dto.response.CreateAssetResponse;
 
 public class CreateAssetMapper {
 
-    public static Asset toEntity(CreateAssetRequest request, AssetType assetType) {
+    public static Asset toEntity(CreateAssetRequest request) {
         return new Asset(
                 request.name(),
+                request.assetType(),
                 request.symbol(),
                 request.logoUrl(),
                 request.interestRate(),
-                request.interestRatePeriod(),
-                assetType
+                request.interestRatePeriod()
         );
     }
 
@@ -22,6 +21,7 @@ public class CreateAssetMapper {
         return new CreateAssetResponse(
                 entity.getId(),
                 entity.getName(),
+                entity.getAssetType(),
                 entity.getSymbol(),
                 entity.getLogoUrl(),
                 entity.getInterestRate(),

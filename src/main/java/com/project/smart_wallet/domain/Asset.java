@@ -9,9 +9,9 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
+@Table(name = "assets")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "assets")
 public class Asset {
 
     @Id
@@ -20,6 +20,9 @@ public class Asset {
 
     @Setter
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private AssetType assetType;
 
     @Setter
     private String symbol;
@@ -30,17 +33,12 @@ public class Asset {
     @Setter
     private BigDecimal interestRate;
 
-    @Enumerated(EnumType.STRING)
     @Setter
+    @Enumerated(EnumType.STRING)
     private InterestRatePeriod interestRatePeriod;
 
     @CreationTimestamp
     private Instant createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "asset_type_id")
-    @Setter
-    private AssetType assetType;
 
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssetPriceHistory> assetPriceHistories;
@@ -48,17 +46,17 @@ public class Asset {
 
     public Asset(
             String name,
+            AssetType assetType,
             String symbol,
             String logoUrl,
             BigDecimal interestRate,
-            InterestRatePeriod interestRatePeriod,
-            AssetType assetType
+            InterestRatePeriod interestRatePeriod
     ) {
         this.name = name;
+        this.assetType = assetType;
         this.symbol = symbol;
         this.logoUrl = logoUrl;
         this.interestRate = interestRate;
         this.interestRatePeriod = interestRatePeriod;
-        this.assetType = assetType;
     }
 }
