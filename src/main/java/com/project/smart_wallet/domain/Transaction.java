@@ -41,13 +41,33 @@ public class Transaction {
 
     @Setter
     @Enumerated(EnumType.STRING)
-    private TranscationType type;
+    private TransactionType type;
 
     @CreationTimestamp
     private Instant createdAt;
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "asset_id")
+    private Asset asset;
+
+    public Transaction(
+            BigDecimal quantity,
+            BigDecimal price,
+            Instant transactionAt,
+            TransactionType type,
+            User user,
+            Asset asset
+    ) {
+        this.quantity = quantity;
+        this.price = price;
+        this.transactionAt = transactionAt;
+        this.type = type;
+        this.user = user;
+        this.asset = asset;
+    }
 }

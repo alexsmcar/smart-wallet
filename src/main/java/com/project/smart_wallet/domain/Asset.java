@@ -53,6 +53,9 @@ public class Asset {
     private Instant createdAt;
 
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> assetTransactions;
+
+    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssetPriceHistory> assetPriceHistories;
 
 
