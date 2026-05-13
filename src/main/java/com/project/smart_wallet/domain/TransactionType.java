@@ -1,6 +1,6 @@
 package com.project.smart_wallet.domain;
 
-public enum TranscationType {
+public enum TransactionType {
     BUY,
     SELL
 }
