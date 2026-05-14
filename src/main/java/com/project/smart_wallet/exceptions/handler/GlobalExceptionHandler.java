@@ -6,6 +6,7 @@ import com.project.smart_wallet.exceptions.dto.ErrorResponse;
 import com.project.smart_wallet.exceptions.dto.FieldErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -37,7 +38,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoResourceFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNoResourceFoundException(NoResourceFoundException ex, HttpServletRequest request) {
+    public ErrorResponse handleNoResourceFound(NoResourceFoundException ex, HttpServletRequest request) {
 
         return new ErrorResponse(
                 Instant.now(),
@@ -47,6 +48,20 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
     }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpServletRequest request) {
+
+        return new ErrorResponse(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "JSON inválido ou campo com formato incorreto",
+                List.of(),
+                request.getRequestURI()
+        );
+    }
+
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
