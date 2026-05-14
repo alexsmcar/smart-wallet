@@ -6,11 +6,11 @@ import com.project.smart_wallet.dto.response.CreateAssetResponse;
 
 public class CreateAssetMapper {
 
-    public static Asset toEntity(CreateAssetRequest request) {
+    public static Asset toEntity(CreateAssetRequest request, String symbol) {
         return new Asset(
                 request.name(),
                 request.assetType(),
-                request.symbol(),
+                symbol,
                 request.logoUrl(),
                 request.interestRate(),
                 request.interestRatePeriod()

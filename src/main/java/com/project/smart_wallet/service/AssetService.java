@@ -23,7 +23,7 @@ public class AssetService {
             throw new ConflictException("Asset já cadastrado");
         }
 
-        Asset asset = toEntity(request);
+        Asset asset = toEntity(request, request.symbol().toUpperCase());
 
         assetRepository.save(asset);
 
